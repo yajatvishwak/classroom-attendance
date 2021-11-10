@@ -31,6 +31,7 @@ dependencies:
   heroicons: 0.3.0
   qr_code_scanner: ^0.6.0
   imei_plugin: ^1.2.0
+  device_info_plus: ^3.1.1
 
 dev_dependencies:
   flutter_test:

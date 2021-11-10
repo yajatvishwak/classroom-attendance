@@ -1,22 +1,33 @@
+import 'dart:io';
 import 'package:attend/qrcamera.dart';
 import 'package:attend/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:imei_plugin/imei_plugin.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 
 void main() => runApp(MaterialApp(
       title: "App",
-      home: MyApp(),
+      home: Home(),
     ));
 
-class MyApp extends StatefulWidget {
+class Home extends StatefulWidget {
   @override
-  _MyAppState createState() => _MyAppState();
+  _HomeState createState() => _HomeState();
 }
 
-class _MyAppState extends State<MyApp> {
+class _HomeState extends State<Home> {
   int _currentPage = 0;
-  @override
+  Future<String> getdeviceId() async {
+    var deviceInfo = DeviceInfoPlugin();
+    if (Platform.isIOS) {
+      var iosDeviceInfo = await deviceInfo.iosInfo;
+      return iosDeviceInfo.identifierForVendor; // unique ID on iOS
+    } else {
+      var androidDeviceInfo = await deviceInfo.androidInfo;
+      return androidDeviceInfo.androidId; // unique ID on Android
+    }
+  }
+
   Widget build(BuildContext context) {
     return MaterialApp(
       routes: {"/qr": (context) => QRCamera()},
@@ -27,10 +38,10 @@ class _MyAppState extends State<MyApp> {
           floatingActionButton: FloatingActionButton(
               onPressed: () async {
                 print("work");
-                String imei = await ImeiPlugin.getImei();
-                print(imei);
-                // Navigator.of(context)
-                //     .push(MaterialPageRoute(builder: (context) => QRCamera()));
+                String deviceId = await getdeviceId();
+                print(deviceId);
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) => QRCamera()));
               },
               child: Icon(Icons.camera_alt_rounded)),
           bottomNavigationBar: BottomNavigationBar(
