@@ -2,6 +2,7 @@ from server import app
 from flask.globals import request
 from flask.json import jsonify
 
+from server import db
 from server.models import Student 
 
 
@@ -12,11 +13,19 @@ def home():
 
 @app.route("/login" , methods= ["POST"])
 def login():
-    usn = request.form.get("usn")
-    password = request.form.get("password")
+    request_data = request.get_json()
+    usn = request_data["usn"]
+    password =  request_data["password"]
     user = Student.query.filter_by(usn=usn).first()
+
+
+
+
+
+    print(user) 
+   # return jsonify(True)
     if user.password == password:
-        return jsonify({"message": "auth successful"})
+        return jsonify({"message": "auth successful","deviceID": user.deviceID})
     else:
-        return jsonify({"message": "auth unsuccessful", "deviceID": user.deviceID})
+        return jsonify({"message": "auth unsuccessful"})
 
