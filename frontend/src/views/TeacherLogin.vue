@@ -13,16 +13,10 @@
         <input type="password" placeholder="password" class="input" />
         <div class="flex my-3 justify-between">
           <div
-            @click="goToStudentSignup"
+            @click="goToStudent"
             class="cursor-pointer hover:text-primary transition-all"
           >
-            sign up?
-          </div>
-          <div
-            @click="goToTeacher"
-            class="cursor-pointer hover:text-primary transition-all"
-          >
-            teacher? here
+            student? here
           </div>
         </div>
 
@@ -34,11 +28,11 @@
 <script>
 export default {
   methods: {
-    goToStudentSignup: function () {
-      this.$router.push("/studentsignup");
-    },
-    goToTeacher: function () {
-      this.$router.push("/teacherlogin");
+    // goToStudentSignup: function () {
+    //   this.$router.push("/teacherlo");
+    // },
+    goToStudent: function () {
+      this.$router.push("/studentlogin");
     },
   },
 };
