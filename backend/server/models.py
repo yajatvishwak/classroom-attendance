@@ -1,4 +1,4 @@
-from server import db
+from server import db, ma
 
 class Student(db.Model):
     sID = db.Column(db.Integer, primary_key = True)
@@ -9,6 +9,17 @@ class Student(db.Model):
     classCode = db.Column(db.String(60), nullable=False)
     subjectCodes = db.Column(db.String(60), nullable=False)
     #attendance = db.relationship("Attendance",backref="student")
+class StudentSchema(ma.SQLAlchemySchema):
+    class Meta:
+        model = Student
+
+    sID = ma.auto_field()
+    usn = ma.auto_field()
+    name = ma.auto_field()
+    password = ma.auto_field()
+    classCode = ma.auto_field()
+    subjectCodes = ma.auto_field()
+
 
 class Teacher(db.Model):
     tID = db.Column(db.Integer, primary_key = True)
@@ -20,23 +31,29 @@ class Teacher(db.Model):
 class Attendance(db.Model):
     aID = db.Column(db.Integer, primary_key= True)
     sID = db.Column(db.String(10))
-    sessionID = db.Column(db.String(20),unique = True, nullable= False)
-    # xcord  = db.Column(db.Integer)
-    # ycord  = db.Column(db.Integer)
+    sessionID = db.Column(db.String(20))
+class AttendanceSchema(ma.SQLAlchemySchema):
+    class Meta:
+        model = Attendance
+    aID = ma.auto_field()
+    sID =  ma.auto_field()
+    sessionID = ma.auto_field()
 
 class Session(db.Model):
-
     tid = db.Column(db.Integer )
     sessionID = db.Column(db.Integer, primary_key= True)
     classCode = db.Column(db.String(10))
-    subjectCode = db.Column(db.String(20),unique = True, nullable= False)
+    subjectCode = db.Column(db.String(20), nullable= False)
     timeInterval = db.Column(db.String(100))
     date = db.Column(db.String(100))
-    # status = db.Column(db.String(20) ,default="pending")
-    # xcord  = db.Column(db.Integer)
-    # ycord  = db.Column(db.Integer)
 
-# class ClassCourse(db.Model):
-#     classID = db.Column(db.String(60), primary_key = True)
-#     subName = db.Column(db.String(100))
-#     courseCode = db.Column(db.String(100), unique=True)
+class SessionSchema(ma.SQLAlchemySchema):
+    class Meta:
+        model = Session
+
+    tid = ma.auto_field()
+    sessionID = ma.auto_field()
+    classCode = ma.auto_field()
+    subjectCode = ma.auto_field()
+    timeInterval = ma.auto_field()
+    date = ma.auto_field()

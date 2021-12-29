@@ -6,11 +6,21 @@
         <label class="label">
           <span class="label-text">Username</span>
         </label>
-        <input type="text" placeholder="username" class="input" />
+        <input
+          v-model="username"
+          type="text"
+          placeholder="username"
+          class="input"
+        />
         <label class="label">
           <span class="label-text mt-5">Password</span>
         </label>
-        <input type="password" placeholder="password" class="input" />
+        <input
+          v-model="password"
+          type="password"
+          placeholder="password"
+          class="input"
+        />
         <div class="flex my-3 justify-between">
           <div
             @click="goToStudentSignup"
@@ -26,19 +36,47 @@
           </div>
         </div>
 
-        <button class="btn btn-primary mt-4">login</button>
+        <button @click="login" class="btn btn-primary mt-4">login</button>
       </div>
     </div>
   </div>
 </template>
 <script>
+import axios from "axios";
 export default {
+  data() {
+    return {
+      username: "",
+      password: "",
+    };
+  },
   methods: {
     goToStudentSignup: function () {
       this.$router.push("/studentsignup");
     },
     goToTeacher: function () {
       this.$router.push("/teacherlogin");
+    },
+    login: function (e) {
+      e.preventDefault();
+      console.log(this.username, this.password);
+      //send to server
+      axios
+        .post("http://localhost:5000/loginstudent", {
+          usn: this.username,
+          password: this.password,
+        })
+        .then((res) => {
+          if (res.data.message === "auth successful") {
+            console.log(res.data.sid);
+            //localStorage.setItem("sid", res.data.sid);
+            this.$router.push("/studentdashboard");
+          } else {
+            alert("Something went wrong");
+            this.username = "";
+            this.password = "";
+          }
+        });
     },
   },
 };

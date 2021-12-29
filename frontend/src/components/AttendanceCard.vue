@@ -2,15 +2,17 @@
   <div class="card bordered m-3 last-of-type:mb-20">
     <div class="card-body">
       <div class="card-title flex items-center justify-between">
-        <div>OS</div>
-        <div class="badge badge-primary">low attendance</div>
+        <div>{{ subname }}</div>
       </div>
 
       <div>
-        <div class="text-3xl font-bold text-center mt-3">30%</div>
+        <div class="text-3xl font-bold text-center mt-3">
+          {{ (parseInt(attended) / parseInt(conducted)) * 100 }}%
+        </div>
       </div>
       <div class="my-5 text-center">
-        100 Classes were conducted, 30 were attended by you
+        {{ conducted }} Classes was/were conducted, {{ attended }} was/were
+        attended by you
       </div>
     </div>
   </div>
@@ -19,5 +21,6 @@
 <script>
 export default {
   name: "AttendanceCard",
+  props: ["subname", "conducted", "attended"],
 };
 </script>
