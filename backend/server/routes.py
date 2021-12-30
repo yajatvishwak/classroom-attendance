@@ -9,6 +9,7 @@ sessionSchema = SessionSchema()
 studentSchema = StudentSchema()
 
 
+
 @app.route("/" , methods= ["GET"])
 def home():
     d = {"message": "Attendify Server Online"}
@@ -43,7 +44,7 @@ def loginteacher():
     if user == None:
         return jsonify({"message": "auth unsuccessful"})
     if user.password == password:
-        return jsonify({"message": "auth successful"})
+        return jsonify({"message": "auth successful" ,"name": user.name, "tid": user.tID })
     else:
         return jsonify({"message": "auth unsuccessful"})
 
@@ -82,7 +83,7 @@ def createSession():
     session = Session(tid=tid,subjectCode=subjectCode, classCode=classCode, timeInterval=timeInterval,date=date)
     db.session.add(session)
     db.session.commit()
-    return jsonify({"message": "created session"})
+    return jsonify({"message": "created session", "sessionID": session.sessionID })
 
 
     
@@ -144,7 +145,3 @@ def punchAttendance():
     db.session.add(att)
     db.session.commit()
     return jsonify({"message" : "added attendance"})
-    
-    
-
-    

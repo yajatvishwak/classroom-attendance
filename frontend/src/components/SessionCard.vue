@@ -5,7 +5,10 @@
   >
     <div class="card-body">
       <div class="card-title flex items-center justify-between">
-        <div>{{ this.classid }} - {{ this.sessionid }} - {{ this.date }}</div>
+        <div>
+          {{ this.classid }} - {{ this.sessionid }} - {{ this.date }} -
+          {{ this.subjectCode }}
+        </div>
       </div>
     </div>
   </div>
@@ -13,7 +16,7 @@
 
 <script>
 export default {
-  props: ["sessionid", "classid", "date"],
+  props: ["sessionid", "classid", "date", "subjectCode"],
   name: "SessionCard",
   methods: {
     navigateToSessionDetails() {

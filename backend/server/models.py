@@ -12,7 +12,6 @@ class Student(db.Model):
 class StudentSchema(ma.SQLAlchemySchema):
     class Meta:
         model = Student
-
     sID = ma.auto_field()
     usn = ma.auto_field()
     name = ma.auto_field()
@@ -27,6 +26,7 @@ class Teacher(db.Model):
     name = db.Column(db.String(50), unique = True, nullable=False)
     # deviceID = db.Column(db.String(100), unique = True, nullable=False)
     password = db.Column(db.String(100), nullable=False)
+
 
 class Attendance(db.Model):
     aID = db.Column(db.Integer, primary_key= True)
