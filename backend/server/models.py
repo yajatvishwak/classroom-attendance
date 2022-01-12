@@ -46,6 +46,7 @@ class Session(db.Model):
     subjectCode = db.Column(db.String(20), nullable= False)
     timeInterval = db.Column(db.String(100))
     date = db.Column(db.String(100))
+    disabled = db.Column(db.Integer)
 
 class SessionSchema(ma.SQLAlchemySchema):
     class Meta:
@@ -57,3 +58,5 @@ class SessionSchema(ma.SQLAlchemySchema):
     subjectCode = ma.auto_field()
     timeInterval = ma.auto_field()
     date = ma.auto_field()
+    disabled = ma.auto_field()
+

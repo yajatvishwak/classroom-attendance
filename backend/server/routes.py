@@ -28,7 +28,7 @@ def loginstudent():
         return jsonify({"message": "auth unsuccessful" })
     if user.password == password:
         sid = user.sID
-        return jsonify({"message": "auth successful", "sid":sid})
+        return jsonify({"message": "auth successful", "sid":sid , "name": user.name})
     else:
         return jsonify({"message": "auth unsuccessful"})
 
@@ -108,7 +108,7 @@ def getSessionDetails():
     for i in sids:
         detailsOfAllStudents.append(Student.query.filter_by(sID=i).first())
     #print([attendanceSchema.dump(i) for i in attendances])
-    return jsonify({"date": session.date , "classCode": session.classCode, "subjectCode":session.subjectCode, "timeInterval":session.timeInterval , "date":session.date , "attended": [studentSchema.dump(i) for i in detailsOfAllStudents ] })
+    return jsonify({"date": session.date , "classCode": session.classCode, "subjectCode":session.subjectCode, "timeInterval":session.timeInterval , "date":session.date ,"status": session.disabled, "attended": [studentSchema.dump(i) for i in detailsOfAllStudents ] })
 
 @app.route("/getAttendance" , methods= ["POST"])
 def getAttendance():
@@ -141,7 +141,30 @@ def punchAttendance():
     sID = request_data["sID"]
     sessionID = request_data["sessionID"]
     print(sessionID)
-    att = Attendance(sID=sID, sessionID=sessionID)
-    db.session.add(att)
-    db.session.commit()
-    return jsonify({"message" : "added attendance"})
+    sess = Session.query.filter_by(sessionID = sessionID).first()
+    if sess.disabled != 1:
+        att = Attendance(sID=sID, sessionID=sessionID)
+        db.session.add(att)
+        db.session.commit()
+        return jsonify({"message" : "added attendance"})
+    else:
+        return jsonify({"message": "something went wrong"})
+
+@app.route("/disableAttendance" , methods= ["POST"])
+def disableAttendance():
+    request_data = request.get_json()
+    print(request_data)
+    sessionID = request_data["sessionID"]
+    print(sessionID)
+    sess = Session.query.filter_by(sessionID = sessionID).first()
+    if sess.disabled == 1:
+        sess.disabled = 0
+        db.session.commit()
+        
+        return jsonify({"message": "enabled"})
+    else:
+        sess.disabled = 1
+        db.session.commit()
+        return jsonify({"message": "disabled"})
+        
+    
