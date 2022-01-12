@@ -69,7 +69,8 @@ export default {
         .then((res) => {
           if (res.data.message === "auth successful") {
             console.log(res.data.sid);
-            //localStorage.setItem("sid", res.data.sid);
+            localStorage.setItem("sid", res.data.sid);
+            localStorage.setItem("sname", res.data.name);
             this.$router.push("/studentdashboard");
           } else {
             alert("Something went wrong");

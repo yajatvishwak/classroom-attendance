@@ -1,6 +1,6 @@
 <template>
   <div class="p-10 pb-0 text-2xl flex justify-between items-center">
-    <div class="font-bold">Welcome, {{ sid }}</div>
+    <div class="font-bold">Welcome, {{ sname }}</div>
     <label for="my-modal-1" class="modal-button"
       ><div class="m-3">
         <img
@@ -97,6 +97,7 @@ export default {
   data() {
     return {
       sid: localStorage.getItem("sid"),
+      sname: localStorage.getItem("sname"),
       sessionID: "",
       attendance2: {},
       attendance: [],
